@@ -17,7 +17,7 @@ const getById = async (req, res, next) => {
 };
 
 const addContact = async (req, res) => {
-  const result = await ContactsService.addContact(req.body);
+  const result = await ContactsService.addNewContact(req.body);
   res.status(201).json(result);
 };
 
@@ -45,6 +45,6 @@ export default {
   getAllContacts: ctrlWrapper(getAllContacts),
   getById: ctrlWrapper(getById),
   addContact: ctrlWrapper(addContact),
-  updateById: ctrlWrapper(updateById),
   deleteById: ctrlWrapper(deleteById),
-}
+  updateById: ctrlWrapper(updateById),
+  }

@@ -5,20 +5,14 @@ const contactsSchema = Joi.object({
     'any.required': 'missing required name field',
   }),
   email: Joi.string()
-    .email({
-      minDomainSegments: 2,
-      tlds: { allow: ['com', 'net'] },
-    })
+    .email()
     .required()
     .messages({
       'any.required': 'missing required email field',
     }),
-  phone: Joi.string()
-    .pattern(/^\+\d{1,3}-\d{3}-\d{3}-\d{4}$/)
-    .required()
-    .messages({
-      'any.required': 'missing required phone field',
-    }),
+  phone: Joi.string().required().messages({
+    'any.required': 'missing required phone field',
+  }),
 });
 
 export default contactsSchema;
