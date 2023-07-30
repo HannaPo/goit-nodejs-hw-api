@@ -5,7 +5,7 @@ const userSignUpSchema = Joi.object({
     'any.required': 'missing required email field',
   }),
   password: Joi.string().min(6).required().messages({
-    'any.required': 'missing required phone field',
+    'any.required': 'missing required password field',
   }),
   subscription: Joi.string(),
 });
@@ -15,7 +15,7 @@ const userSignInSchema = Joi.object({
     'any.required': 'missing required email field',
   }),
   password: Joi.string().min(6).required().messages({
-    'any.required': 'missing required phone field',
+    'any.required': 'missing required password field',
   }),
 });
 

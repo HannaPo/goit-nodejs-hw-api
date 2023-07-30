@@ -3,21 +3,28 @@ import express from 'express';
 import ctrl from '../../controllers/contacts-controller.js';
 import contactsSchemas from '../../schemas/contacts-schemas.js';
 
-import { isEmptyBody, validateBody, isValidId } from '../../middlewares/index.js';
+import { authenticate, isEmptyBody, validateBody, isValidId } from '../../middlewares/index.js';
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get('/', ctrl.getAllContacts);
 
 contactsRouter.get('/:contactId', isValidId, ctrl.getById);
 
-contactsRouter.post('/', isEmptyBody, validateBody(contactsSchemas.contactsSchema), ctrl.addContact);
+contactsRouter.post(
+  '/',
+  isEmptyBody,
+  validateBody(contactsSchemas.contactsSchema),
+  ctrl.addContact
+);
 
 contactsRouter.put(
   '/:contactId',
   isValidId,
   isEmptyBody,
-  validateBody(contactsSchemas.contactsSchema), 
+  validateBody(contactsSchemas.contactsSchema),
   ctrl.updateById
 );
 
