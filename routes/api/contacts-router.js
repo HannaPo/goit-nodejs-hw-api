@@ -3,7 +3,7 @@ import express from 'express';
 import ctrl from '../../controllers/contacts-controller.js';
 import contactsSchemas from '../../schemas/contacts-schemas.js';
 
-import { authenticate, isEmptyBody, validateBody, isValidId } from '../../middlewares/index.js';
+import {upload, authenticate, isEmptyBody, validateBody, isValidId } from '../../middlewares/index.js';
 
 const contactsRouter = express.Router();
 
@@ -15,6 +15,7 @@ contactsRouter.get('/:contactId', isValidId, ctrl.getById);
 
 contactsRouter.post(
   '/',
+  upload.single('avatar'),
   isEmptyBody,
   validateBody(contactsSchemas.contactsSchema),
   ctrl.addContact
