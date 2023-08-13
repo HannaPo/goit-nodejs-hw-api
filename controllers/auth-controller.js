@@ -30,7 +30,7 @@ const signup = async (req, res) => {
     verificationToken,
     avatarURL,
   });
-  console.log("Received token:", verificationToken);
+  
   const verifyEmail = createVerifyEmail({ email, verificationToken });
   await sendEmail(verifyEmail);
   
@@ -48,7 +48,7 @@ const verify = async (req, res) => {
   if (!user) {
     throw HttpError(404, 'User not found');
   }
-  await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: null});
+  await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: "null"});
 
   res.status(200).json({
     message: 'Verification successful',
@@ -66,7 +66,7 @@ const resendVerifyEmail = async(req, res)=> {
         throw HttpError(400, "Verification has already been passed")
     }
 
-    const verifyEmail = createVerifyEmail({email, verificationToken: user.verificationToken});
+    const verifyEmail = createVerifyEmail({ email, verificationToken: user.verificationToken});
 
     await sendEmail(verifyEmail);
 
