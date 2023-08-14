@@ -30,10 +30,10 @@ const signup = async (req, res) => {
     verificationToken,
     avatarURL,
   });
-  
+
   const verifyEmail = createVerifyEmail({ email, verificationToken });
   await sendEmail(verifyEmail);
-  
+
   res.status(201).json({
     user: {
       email: newUser.email,
@@ -48,32 +48,33 @@ const verify = async (req, res) => {
   if (!user) {
     throw HttpError(404, 'User not found');
   }
-  await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: "null"});
+  
+  await User.updateOne({ _id: user._id }, { verify: true, verificationToken: null });
 
   res.status(200).json({
     message: 'Verification successful',
   });
 };
 
-const resendVerifyEmail = async(req, res)=> {
-    const {email} = req.body;
-    const user = await User.findOne({email});
-    if(!user) {
-        throw HttpError(404, "User not found");
-    }
+const resendVerifyEmail = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw HttpError(404, 'User not found');
+  }
 
-    if(user.verify) {
-        throw HttpError(400, "Verification has already been passed")
-    }
+  if (user.verify) {
+    throw HttpError(400, 'Verification has already been passed');
+  }
 
-    const verifyEmail = createVerifyEmail({ email, verificationToken: user.verificationToken});
+  const verifyEmail = createVerifyEmail({ email, verificationToken: user.verificationToken });
 
-    await sendEmail(verifyEmail);
+  await sendEmail(verifyEmail);
 
-    res.status(200).json({
-        message: "Verification email sent"
-    })
-}
+  res.status(200).json({
+    message: 'Verification email sent',
+  });
+};
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
