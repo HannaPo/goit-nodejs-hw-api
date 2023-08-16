@@ -19,4 +19,10 @@ const userSignInSchema = Joi.object({
   }),
 });
 
-export default { userSignUpSchema, userSignInSchema };
+const userEmailSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    'any.required': 'missing required email field',
+  }),
+});
+
+export default { userSignUpSchema, userSignInSchema, userEmailSchema };
